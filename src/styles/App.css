@@ -1,0 +1,42 @@
+h1 {
+    margin: 0px;
+}
+
+.header {
+    text-align: center;
+    padding: 25px;
+}
+
+.gamePanel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
+}
+
+.changleGame {
+    display: grid;
+    width: 337px;
+    height: 400px;
+}
+
+.changleInput {
+    display: inline-flex;
+    width: 50px;
+    height: 50px;
+    border: 1px solid gray;
+    font-size: 2em;
+    justify-content: center;
+    align-items: center;
+}
+
+.changeAmount {
+    background-color: lightgray;
+}
+
+.changleRow {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 5px;
+    margin-bottom: 5px;
+}
