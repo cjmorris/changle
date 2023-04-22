@@ -1,30 +1,39 @@
+:root {
+    --header-height: 50px;
+}
+
+html, body {
+    margin: 0px;
+}
+
 h1 {
     margin: 0px;
 }
 
 .header {
-    text-align: center;
-    padding: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: var(--header-height);
 }
 
 .gamePanel {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 600px;
+    height: calc(100vh - var(--header-height) - 1px);
 }
 
 .changleGame {
     display: grid;
-    width: 337px;
-    height: 400px;
+    grid-gap: 6px;
 }
 
 .changleInput {
     display: inline-flex;
     width: 50px;
     height: 50px;
-    border: 1px solid gray;
+    border: 2px solid gray;
     font-size: 2em;
     justify-content: center;
     align-items: center;
@@ -37,6 +46,5 @@ h1 {
 .changleRow {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    grid-gap: 5px;
-    margin-bottom: 5px;
+    grid-gap: 6px;
 }
