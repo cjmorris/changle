@@ -5,41 +5,44 @@ import ChangleRow from "./ChangleRow"
 import { v4 as uuidv4 } from 'uuid';
 
 export default function ChangleGame() {
-    const [words,setWords] = useState<string[]>(Array(6).fill(""))
-    const [currentRow,setCurrentRow] =  useState(0);
+    const [wordState,setWordState] = useState<{words: string[], currentRow: number}>({words: Array(6).fill(""), currentRow: 0})
     
     useEffect(() => {
-        document.addEventListener('keydown', detectKeyDown, true)
+        document.addEventListener('keydown', detectKeyDown)
+        return () => {
+            document.removeEventListener('keydown', detectKeyDown)
+        }
     }, [])
 
     function detectKeyDown(event: KeyboardEvent){
         if(event.key >= 'a' && event.key <= 'z'){
             handleAddLetter(event.key.toUpperCase())
-        }
-        console.log(event.key)
-        if(event.key === 'Backspace'){
+        }else if(event.key === 'Backspace'){
             handleRemoveLetter()
+        }else if(event.key === 'Enter'){
+            handleEnterWord()
         }
     }
 
     function handleAddLetter(key: string){
-        setWords((prevWords) => {
-            const newWords = [...prevWords]
-            if(newWords[currentRow].length < 5){
-                newWords[currentRow] += key
-            }
-            return newWords
-        })
+        const newWordState = {...wordState}
+        if(wordState.words[wordState.currentRow].length < 5){
+            newWordState.words[wordState.currentRow] += key
+        }
+        setWordState(newWordState)
     }
 
     function handleRemoveLetter(){
-        setWords((prevWords) => {
-            const newWords = [...prevWords]
-            if(newWords[currentRow].length > 0){
-                newWords[currentRow] = newWords[currentRow].slice(0, newWords[currentRow].length-1)
-            }
-            return newWords
-        })
+        const newWordState = {...wordState}
+        if(wordState.words[wordState.currentRow].length > 0){
+            newWordState.words[wordState.currentRow] = wordState.words[wordState.currentRow].slice(0, wordState.words[wordState.currentRow].length-1)
+        }
+        setWordState(newWordState)
+    }
+
+    function handleEnterWord(){
+        const newWordState = {...wordState, currentRow: wordState.currentRow+1}
+        setWordState(newWordState)
     }
     
     const changeAmounts = [1,2,3,2,1,0];
@@ -48,7 +51,7 @@ export default function ChangleGame() {
     return (
         <div className="gamePanel">
             <div className="changleGame">
-                {words.map((value: string, index: number) => (
+                {wordState.words.map((value: string, index: number) => (
                     <ChangleRow key={uuidv4()} word={value} changeAmount={changeAmounts[index]}/>
                 ))}
             </div>
