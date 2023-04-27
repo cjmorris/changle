@@ -5,8 +5,9 @@ import ChangleRow from "./ChangleRow"
 import { v4 as uuidv4 } from 'uuid';
 
 export default function ChangleGame() {
-    const [wordState,setWordState] = useState<{words: string[], currentRow: number}>({words: Array(6).fill(""), currentRow: 0})
-    
+    const NUM_OF_ROWS = 6;
+    const [wordState,setWordState] = useState<{words: string[], currentRow: number}>({words: Array(NUM_OF_ROWS).fill(""), currentRow: 0})
+
     useEffect(() => {
         document.addEventListener('keydown', detectKeyDown)
         return () => {
@@ -25,24 +26,29 @@ export default function ChangleGame() {
     }
 
     function handleAddLetter(key: string){
-        const newWordState = {...wordState}
-        if(wordState.words[wordState.currentRow].length < 5){
-            newWordState.words[wordState.currentRow] += key
-        }
-        setWordState(newWordState)
+        setWordState(prevState => {
+            const newWords = prevState.words.slice();
+            if(prevState.words[prevState.currentRow].length < 5){
+                newWords[prevState.currentRow] += key
+            }
+            return {...prevState, words: newWords}
+        })
     }
 
     function handleRemoveLetter(){
-        const newWordState = {...wordState}
-        if(wordState.words[wordState.currentRow].length > 0){
-            newWordState.words[wordState.currentRow] = wordState.words[wordState.currentRow].slice(0, wordState.words[wordState.currentRow].length-1)
-        }
-        setWordState(newWordState)
+        setWordState(prevState => {
+            const newWords = prevState.words.slice();
+            if(prevState.words[prevState.currentRow].length > 0){
+                newWords[prevState.currentRow] = prevState.words[prevState.currentRow].slice(0, prevState.words[prevState.currentRow].length-1)
+            }
+            return {...prevState, words: newWords}
+        })
     }
 
     function handleEnterWord(){
-        const newWordState = {...wordState, currentRow: wordState.currentRow+1}
-        setWordState(newWordState)
+        setWordState(prevState => {
+            return {...prevState, currentRow: prevState.currentRow < NUM_OF_ROWS-1 ? prevState.currentRow + 1 : prevState.currentRow}
+        })
     }
     
     const changeAmounts = [1,2,3,2,1,0];
