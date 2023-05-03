@@ -50,3 +50,19 @@ h1 {
     grid-template-columns: repeat(6, 1fr);
     grid-gap: 6px;
 }
+
+.status-uncommited {
+    background-color: none;
+}
+
+.status-notInWord {
+    background-color: gray;
+}
+
+.status-wrongPosition {
+    background-color: orange;
+}
+
+.status-correctPosition {
+    background-color: green;
+}

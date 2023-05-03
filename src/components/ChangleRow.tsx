@@ -3,14 +3,15 @@ import ChangleInput from "./ChangleInput"
 import { v4 as uuidv4 } from 'uuid';
 
 interface IProps {
-    word: String,
-    changeAmount: number
+    word: string,
+    changeAmount: number,
+    statuses: string[]
 }
 
 export default function ChangleRow(props: IProps) {
     const inputs = []
     for (let i = 0; i < 5 ; i++){
-        inputs[i] = <ChangleInput key={uuidv4()} letter={props.word[i]}/>
+        inputs[i] = <ChangleInput key={uuidv4()} letter={props.word[i]} status={props.statuses[i]}/>
     }
 
     return (

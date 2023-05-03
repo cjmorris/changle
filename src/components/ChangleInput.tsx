@@ -1,11 +1,12 @@
 interface IProps {
-    letter: String
+    letter: string
+    status: string
 }
 
 export default function ChangleInput(props: IProps) {
     
     return (
-        <div className="changleInput">
+        <div className={`changleInput ${props.status}`}>
             {props.letter}
         </div>
     )
