@@ -41,7 +41,7 @@ export default function ChangleGame() {
 
     function handleAddLetter(key: string){
         setWordState(prevState => {
-            const newWords = prevState.words.slice();
+            const newWords = prevState.words.map(changleWord => {return {...changleWord}})
             if(prevState.words[prevState.currentRow].word.length < WORD_LENGTH){
                 newWords[prevState.currentRow].word += key
             }
@@ -51,7 +51,7 @@ export default function ChangleGame() {
 
     function handleRemoveLetter(){
         setWordState(prevState => {
-            const newWords = prevState.words.slice();
+            const newWords = prevState.words.map(changleWord => {return {...changleWord}})
             if(prevState.words[prevState.currentRow].word.length > 0){
                 newWords[prevState.currentRow].word = prevState.words[prevState.currentRow].word.slice(0, prevState.words[prevState.currentRow].word.length-1)
             }
@@ -62,7 +62,7 @@ export default function ChangleGame() {
     function handleEnterWord(){
         setWordState(prevState => {
             if(prevState.words[prevState.currentRow].word.length === WORD_LENGTH){
-                const newWords = prevState.words.slice()
+                const newWords = prevState.words.map(changleWord => {return {...changleWord}})
                 newWords[prevState.currentRow].statuses = getStatuses()
                 return {
                     ...prevState, 
