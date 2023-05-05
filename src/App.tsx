@@ -5,7 +5,7 @@ export default function App() {
   return (
     <>
       <Header/>
-      <ChangleGame/>
+      <ChangleGame answer="CRANE"/>
     </>
   )
 }

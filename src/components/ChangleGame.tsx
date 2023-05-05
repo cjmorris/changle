@@ -9,7 +9,11 @@ interface ChangleWord{
     statuses: string[]
 }
 
-export default function ChangleGame() {
+interface IProps {
+    answer: string
+}
+
+export default function ChangleGame(props: IProps) {
     const WORD_LENGTH = 5;
     const NUM_OF_ROWS = 6;
     const [wordState,setWordState] = useState<{words: ChangleWord[], currentRow: number}>({
@@ -63,7 +67,7 @@ export default function ChangleGame() {
         setWordState(prevState => {
             if(prevState.words[prevState.currentRow].word.length === WORD_LENGTH){
                 const newWords = prevState.words.map(changleWord => {return {...changleWord}})
-                newWords[prevState.currentRow].statuses = getStatuses()
+                newWords[prevState.currentRow].statuses = checkWord(prevState.words[prevState.currentRow].word)
                 return {
                     ...prevState, 
                     currentRow: prevState.currentRow < NUM_OF_ROWS-1 ? prevState.currentRow + 1 : prevState.currentRow,
@@ -76,8 +80,26 @@ export default function ChangleGame() {
         })
     }
 
-    function getStatuses(): string[]{
-        return ["status-notInWord","status-wrongPosition","status-notInWord","status-notInWord","status-correctPosition"]
+    function checkWord(guess: string): string[]{        
+        const CORRECT = "status-correctPosition";
+        const WRONGPOS = "status-wrongPosition";
+        const NOTINWORD = "status-notInWord";
+        if(props.answer === guess){
+            return Array(WORD_LENGTH).fill(CORRECT)
+        }else{
+            const statuses: string[] = Array(WORD_LENGTH).fill(null)
+            for(let i = 0; i < WORD_LENGTH; i++){
+                if(props.answer[i] === guess[i]){
+                    statuses[i] = CORRECT;
+                }
+            }
+            for(let i = 0; i < WORD_LENGTH; i++){
+                if(statuses[i] === null){
+                    statuses[i] = NOTINWORD;
+                }
+            }
+            return statuses;
+        }
     }
     
     const changeAmounts = [1,2,3,2,1,0];
