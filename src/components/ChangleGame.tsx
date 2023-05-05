@@ -88,14 +88,29 @@ export default function ChangleGame(props: IProps) {
             return Array(WORD_LENGTH).fill(CORRECT)
         }else{
             const statuses: string[] = Array(WORD_LENGTH).fill(null)
+            const used: boolean[] = Array(WORD_LENGTH).fill(false)
             for(let i = 0; i < WORD_LENGTH; i++){
                 if(props.answer[i] === guess[i]){
-                    statuses[i] = CORRECT;
+                    statuses[i] = CORRECT
+                    used[i] = true
+                }
+            }
+            //Looping through letters in the guess
+            for(let i = 0; i < WORD_LENGTH; i++){
+                if(statuses[i] === null){
+                    //Looping through letters in the answer
+                    for(let j = 0; j < WORD_LENGTH; j++){
+                        if(!used[j] && guess[i] === props.answer[j]){
+                            statuses[i] = WRONGPOS
+                            used[j] = true
+                            break
+                        }
+                    }
                 }
             }
             for(let i = 0; i < WORD_LENGTH; i++){
                 if(statuses[i] === null){
-                    statuses[i] = NOTINWORD;
+                    statuses[i] = NOTINWORD
                 }
             }
             return statuses;
