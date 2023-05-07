@@ -151,7 +151,6 @@ export default function ChangleGame(props: IProps) {
             }
             if(WORD_LENGTH-matchingLetters === changeAmount){
                 possibleWords.push(ALLOWED_GUESS_LIST[i].toUpperCase())
-                console.log(ALLOWED_GUESS_LIST[i].toUpperCase())
             }
         }
         if(possibleWords.length > 0){
