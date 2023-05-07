@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 
 import ChangleRow from "./ChangleRow"
+import ALLOWED_GUESS_LIST from "../word_lists/guess_list"
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -66,18 +67,27 @@ export default function ChangleGame(props: IProps) {
     function handleEnterWord(){
         setWordState(prevState => {
             if(prevState.words[prevState.currentRow].word.length === WORD_LENGTH){
-                const newWords = prevState.words.map(changleWord => {return {...changleWord}})
-                newWords[prevState.currentRow].statuses = checkWord(prevState.words[prevState.currentRow].word)
-                return {
-                    ...prevState, 
-                    currentRow: prevState.currentRow < NUM_OF_ROWS-1 ? prevState.currentRow + 1 : prevState.currentRow,
-                    words: newWords
+                if(checkWordIsAllowed(prevState.words[prevState.currentRow].word)){
+                    const newWords = prevState.words.map(changleWord => {return {...changleWord}})
+                    newWords[prevState.currentRow].statuses = checkWord(prevState.words[prevState.currentRow].word)
+                    return {
+                        ...prevState, 
+                        currentRow: prevState.currentRow < NUM_OF_ROWS-1 ? prevState.currentRow + 1 : prevState.currentRow,
+                        words: newWords
+                    }
                 }
-            }else{
-                return prevState
             }
-            
+            return prevState
         })
+    }
+
+    function checkWordIsAllowed(guess: string): boolean{
+        for(let i = 0; i < ALLOWED_GUESS_LIST.length; i++){
+            if(ALLOWED_GUESS_LIST[i].toUpperCase() === guess){
+                return true
+            }
+        }
+        return false
     }
 
     function checkWord(guess: string): string[]{        
